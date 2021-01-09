@@ -18,7 +18,7 @@ base_folder = 'D:/Documents/Downloads/images/test/'
 image_folder = base_folder + 'Hashimoto Nanami'
 video_hor_name = base_folder + 'video_hor.mp4'
 video_ver_name = base_folder + 'video_ver.mp4'
-audio_name = base_folder + '/result/You Raise Me Up.mp3'
+audio_name = base_folder + 'You Raise Me Up.mp3'
 
 
 
@@ -58,21 +58,27 @@ class videoGen:
             video.write(resized_image)
         video.release()
 
-
-
-
 videoG = videoGen(1920, 1080, image_folder, video_hor_name)
 videoG.gen_video()
 videoG1 = videoGen(1080, 1920, image_folder, video_ver_name)
 videoG1.gen_video()
 
-audioclip = AudioFileClip(audio_name)
-new_audioclip = CompositeAudioClip([audioclip])
+if os.path.isdir(base_folder + 'result'):
+    print("当前目录下存在 result 文件夹")
+else:
+    print("当前目录下不存在 result 文件夹，调用 mkdir 创建该文件夹")
+    os.mkdir(base_folder + 'result')
 
 videoclip_hor = VideoFileClip(video_hor_name)
-videoclip_hor.audio = new_audioclip
-videoclip_hor.write_videofile(video_hor_name)
-
 videoclip_ver = VideoFileClip(video_ver_name)
+audioclip = AudioFileClip(audio_name)
+new_audioclip = CompositeAudioClip([audioclip]).set_duration(videoclip_hor.duration)
+
+videoclip_hor.audio = new_audioclip
+videoclip_hor.write_videofile(base_folder + 'result/video_hor.mp4')
+
 videoclip_ver.audio = new_audioclip
-videoclip_ver.write_videofile(video_ver_name)
+videoclip_ver.write_videofile(base_folder + 'result/video_ver.mp4')
+
+os.remove(video_hor_name)
+os.remove(video_ver_name)
