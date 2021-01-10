@@ -13,12 +13,15 @@ def convert_from_image_to_cv2(img: Image) -> np.ndarray:
     # return cv2.cvtColor(numpy.array(img), cv2.COLOR_RGB2BGR)
     return np.asarray(img)
 
-base_folder = 'D:/Documents/Downloads/images/test/'
+video_prefix = '[104]Sayaka Okada'
+base_folder = 'D:/Documents/Downloads/images/' + video_prefix + '/'
+image_folder = base_folder + 'full/'
+audio_name = base_folder + '溫柔扑了空才能长記性.mp3'
+video_hor_name = video_prefix + '_hor.mp4'
+video_ver_name = video_prefix + '_ver.mp4'
+video_hor_path = base_folder + video_hor_name
+video_ver_path = base_folder + video_ver_name
 
-image_folder = base_folder + 'Hashimoto Nanami'
-video_hor_name = base_folder + 'video_hor.mp4'
-video_ver_name = base_folder + 'video_ver.mp4'
-audio_name = base_folder + 'You Raise Me Up.mp3'
 
 
 
@@ -43,8 +46,9 @@ class videoGen:
         img_height, img_width, channels = image_file.shape
         img = convert_from_cv2_to_image(image_file)
         bk = Image.new('RGB', (self.width, self.height), (255, 255, 255))
-        bk_img = img.copy()
-        bk_img_big = bk_img.resize((img_width * 4, img_height * 4)).filter(ImageFilter.GaussianBlur(radius=6))
+        # bk_img = img.copy()
+        # bk_img_big = bk_img.resize((img_width * 4, img_height * 4)).filter(ImageFilter.GaussianBlur(radius=6))
+        bk_img_big = convert_from_cv2_to_image(cv2.xphoto.oilPainting(cv2.resize(image_file, (img_width * 4, img_height * 4), interpolation = cv2.INTER_AREA), 7, 1))
         bk_img_result = bk_img_big.crop([img_width, img_height, self.width + img_width, self.height + img_height])
         bk.paste(bk_img_result, (0, 0))
         bk.paste(img, (int(self.width/2 - img_width/2), int(self.height/2 - img_height/2)))
@@ -54,13 +58,14 @@ class videoGen:
         images = [img for img in os.listdir(self.image_folder)]
         video = cv2.VideoWriter(self.video_name,cv2.VideoWriter_fourcc('M','J','P','G'), 1/3, (self.width, self.height))
         for image in images:
+            print(image)
             resized_image = self.backgrounded(self.image_resize(cv2.imread(os.path.join(self.image_folder, image))))
             video.write(resized_image)
         video.release()
 
-videoG = videoGen(1920, 1080, image_folder, video_hor_name)
+videoG = videoGen(1920, 1080, image_folder, video_hor_path)
 videoG.gen_video()
-videoG1 = videoGen(1080, 1920, image_folder, video_ver_name)
+videoG1 = videoGen(1080, 1920, image_folder, video_ver_path)
 videoG1.gen_video()
 
 if os.path.isdir(base_folder + 'result'):
@@ -69,16 +74,16 @@ else:
     print("当前目录下不存在 result 文件夹，调用 mkdir 创建该文件夹")
     os.mkdir(base_folder + 'result')
 
-videoclip_hor = VideoFileClip(video_hor_name)
-videoclip_ver = VideoFileClip(video_ver_name)
+videoclip_hor = VideoFileClip(video_hor_path)
+videoclip_ver = VideoFileClip(video_ver_path)
 audioclip = AudioFileClip(audio_name)
 new_audioclip = CompositeAudioClip([audioclip]).set_duration(videoclip_hor.duration)
 
 videoclip_hor.audio = new_audioclip
-videoclip_hor.write_videofile(base_folder + 'result/video_hor.mp4')
+videoclip_hor.write_videofile(base_folder + 'result/' + video_hor_name)
 
 videoclip_ver.audio = new_audioclip
-videoclip_ver.write_videofile(base_folder + 'result/video_ver.mp4')
+videoclip_ver.write_videofile(base_folder + 'result/' + video_ver_name)
 
-os.remove(video_hor_name)
-os.remove(video_ver_name)
+os.remove(video_hor_path)
+os.remove(video_ver_path)
