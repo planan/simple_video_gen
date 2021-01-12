@@ -5,7 +5,7 @@ from scrap_from_douban.items import ScrapFromDoubanItem
 class PhotoSpider(scrapy.Spider):
     name = 'photo'
     allowed_domains = ['douban.com']
-    start_urls = ['https://movie.douban.com/celebrity/1371979/photos/']
+    start_urls = ['https://movie.douban.com/celebrity/1410902/photos/']
 
     def parse(self, response):
         item = ScrapFromDoubanItem()

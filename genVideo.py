@@ -1,19 +1,19 @@
-import cv2
+from cv2 import cv2
 import os
 from PIL import Image, ImageFilter
 import numpy as np
 from moviepy.editor import *
 
 def convert_from_cv2_to_image(img: np.ndarray) -> Image:
-    # return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-    return Image.fromarray(img)
+    return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    # return Image.fromarray(img)
 
 
 def convert_from_image_to_cv2(img: Image) -> np.ndarray:
-    # return cv2.cvtColor(numpy.array(img), cv2.COLOR_RGB2BGR)
-    return np.asarray(img)
+    return cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+    # return np.asarray(img)
 
-video_prefix = '[104]Sayaka Okada'
+video_prefix = '[104]Hinano Kamimura'
 base_folder = 'D:/Documents/Downloads/images/' + video_prefix + '/'
 image_folder = base_folder + 'full/'
 audio_name = base_folder + '溫柔扑了空才能长記性.mp3'
@@ -45,12 +45,9 @@ class videoGen:
     def backgrounded(self, image_file):
         img_height, img_width, channels = image_file.shape
         img = convert_from_cv2_to_image(image_file)
-        bk = Image.new('RGB', (self.width, self.height), (255, 255, 255))
-        # bk_img = img.copy()
+        bk = Image.new('RGB', (self.width, self.height), (0, 0, 0))
         # bk_img_big = bk_img.resize((img_width * 4, img_height * 4)).filter(ImageFilter.GaussianBlur(radius=6))
-        bk_img_big = convert_from_cv2_to_image(cv2.xphoto.oilPainting(cv2.resize(image_file, (img_width * 4, img_height * 4), interpolation = cv2.INTER_AREA), 7, 1))
-        bk_img_result = bk_img_big.crop([img_width, img_height, self.width + img_width, self.height + img_height])
-        bk.paste(bk_img_result, (0, 0))
+        # bk_img_big = convert_from_cv2_to_image(cv2.xphoto.oilPainting(cv2.resize(image_file, (img_width * 4, img_height * 4), interpolation = cv2.INTER_AREA), 7, 1))
         bk.paste(img, (int(self.width/2 - img_width/2), int(self.height/2 - img_height/2)))
         return convert_from_image_to_cv2(bk)
 
@@ -68,11 +65,11 @@ videoG.gen_video()
 videoG1 = videoGen(1080, 1920, image_folder, video_ver_path)
 videoG1.gen_video()
 
-if os.path.isdir(base_folder + 'result'):
+if os.path.isdir(base_folder + video_prefix):
     print("当前目录下存在 result 文件夹")
 else:
     print("当前目录下不存在 result 文件夹，调用 mkdir 创建该文件夹")
-    os.mkdir(base_folder + 'result')
+    os.mkdir(base_folder + video_prefix)
 
 videoclip_hor = VideoFileClip(video_hor_path)
 videoclip_ver = VideoFileClip(video_ver_path)

@@ -127,3 +127,23 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+style_transfer/bk.jpeg
+style_transfer/bk.jpg
+style_transfer/models/candy.t7
+style_transfer/models/composition_vii.t7
+style_transfer/models/feathers.t7
+style_transfer/models/la_muse.t7
+style_transfer/models/mosaic.t7
+style_transfer/models/starry_night.t7
+style_transfer/models/the_scream.t7
+style_transfer/models/the_wave.t7
+style_transfer/models/udnie.t7
+style_transfer/saveimgs6/candy.t7.jpg
+style_transfer/saveimgs6/composition_vii.t7.jpg
+style_transfer/saveimgs6/feathers.t7.jpg
+style_transfer/saveimgs6/la_muse.t7.jpg
+style_transfer/saveimgs6/mosaic.t7.jpg
+style_transfer/saveimgs6/starry_night.t7.jpg
+style_transfer/saveimgs6/the_scream.t7.jpg
+style_transfer/saveimgs6/the_wave.t7.jpg
+style_transfer/saveimgs6/udnie.t7.jpg
