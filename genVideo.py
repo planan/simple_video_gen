@@ -13,10 +13,10 @@ def convert_from_image_to_cv2(img: Image) -> np.ndarray:
     return cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
     # return np.asarray(img)
 
-video_prefix = '[104]Hinano Kamimura'
+video_prefix = '[105]Tamami Sakaguchi'
 base_folder = 'D:/Documents/Downloads/images/' + video_prefix + '/'
 image_folder = base_folder + 'full/'
-audio_name = base_folder + '溫柔扑了空才能长記性.mp3'
+audio_name = base_folder + '爱你就像爱生命.mp3'
 video_hor_name = video_prefix + '_hor.mp4'
 video_ver_name = video_prefix + '_ver.mp4'
 video_hor_path = base_folder + video_hor_name
@@ -74,13 +74,13 @@ else:
 videoclip_hor = VideoFileClip(video_hor_path)
 videoclip_ver = VideoFileClip(video_ver_path)
 audioclip = AudioFileClip(audio_name)
-new_audioclip = CompositeAudioClip([audioclip]).set_duration(videoclip_hor.duration)
+new_audioclip = CompositeAudioClip([audioclip])
 
 videoclip_hor.audio = new_audioclip
-videoclip_hor.write_videofile(base_folder + 'result/' + video_hor_name)
+videoclip_hor.write_videofile(base_folder + video_prefix + '/' + video_hor_name)
 
 videoclip_ver.audio = new_audioclip
-videoclip_ver.write_videofile(base_folder + 'result/' + video_ver_name)
+videoclip_ver.write_videofile(base_folder + video_prefix + '/' + video_ver_name)
 
 os.remove(video_hor_path)
 os.remove(video_ver_path)

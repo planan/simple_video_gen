@@ -34,7 +34,7 @@ def style_transfer(pathIn='',model='',width=None):
  
     ## reshape输出结果, 将减去的平均值加回来，并交换各颜色通道
     output = output.reshape((3, output.shape[2], output.shape[3]))
-    output[0] += 153.939
+    output[0] += 103.939
     output[1] += 116.779
     output[2] += 123.680
     output = output.transpose(1, 2, 0)
